@@ -33,13 +33,13 @@ import signal
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio import eng_notation
-import Practica1_epy_block_0 as epy_block_0  # embedded python block
+import diferenciador_epy_block_0 as epy_block_0  # embedded python block
 
 
 
 from gnuradio import qtgui
 
-class Practica1(gr.top_block, Qt.QWidget):
+class diferenciador(gr.top_block, Qt.QWidget):
 
     def __init__(self):
         gr.top_block.__init__(self, "Not titled yet", catch_exceptions=True)
@@ -62,7 +62,7 @@ class Practica1(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "Practica1")
+        self.settings = Qt.QSettings("GNU Radio", "diferenciador")
 
         try:
             if StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
@@ -128,7 +128,7 @@ class Practica1(gr.top_block, Qt.QWidget):
 
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "Practica1")
+        self.settings = Qt.QSettings("GNU Radio", "diferenciador")
         self.settings.setValue("geometry", self.saveGeometry())
         self.stop()
         self.wait()
@@ -145,7 +145,7 @@ class Practica1(gr.top_block, Qt.QWidget):
 
 
 
-def main(top_block_cls=Practica1, options=None):
+def main(top_block_cls=diferenciador, options=None):
 
     if StrictVersion("4.5.0") <= StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
         style = gr.prefs().get_string('qtgui', 'style', 'raster')

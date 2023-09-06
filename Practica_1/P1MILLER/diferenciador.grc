@@ -11,7 +11,7 @@ options:
     gen_linking: dynamic
     generate_options: qt_gui
     hier_block_src_path: '.:'
-    id: Acumulador
+    id: diferenciador
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -61,7 +61,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [296, 452.0]
+    coordinate: [344, 292.0]
     rotation: 0
     state: true
 - name: blocks_vector_source_x_0
@@ -81,7 +81,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [96, 204.0]
+    coordinate: [40, 276.0]
     rotation: 0
     state: true
 - name: epy_block_0
@@ -89,14 +89,14 @@ blocks:
   parameters:
     _source_code: "import numpy as np\nfrom gnuradio import gr\n\nclass e_Diff(gr.sync_block):\n\
       \    def __init__(self, example_param=1.0):  # only default arguments here\n\
-      \        gr.sync_block.__init__(\n            self,\n            name=\"e_accum\"\
+      \        gr.sync_block.__init__(\n            self,\n            name=\"e_Diff\"\
       ,  # will show up in GRC\n            in_sig=[np.float32],\n            out_sig=[np.float32]\n\
       \        )\n        self.acum_anterior = 0\n        self.example_param = example_param\n\
       \n    def work(self, input_items, output_items):\n        x = input_items[0]\
       \  # Input signal.\n        y0 = output_items[0]  # Differential cumulative\
-      \ signal\n        N = len(x)\n        summ = np.cumsum(x) + self.acum_anterior\n\
-      \        self.acum_anterior = summ[-1]\n        y0[:] = -summ\n        return\
-      \ len(y0)\n\n        \n"
+      \ signal\n        N = len(x)\n        diff = np.cumsum(x) - self.acum_anterior\n\
+      \        self.acum_anterior = diff[-1]\n        y0[:] = diff\n        return\
+      \ len(y0)\n\n"
     affinity: ''
     alias: ''
     comment: ''
@@ -104,14 +104,14 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
   states:
-    _io_cache: ('e_accum', 'e_Diff', [('example_param', '1.0')], [('0', 'float', 1)],
+    _io_cache: ('e_Diff', 'e_Diff', [('example_param', '1.0')], [('0', 'float', 1)],
       [('0', 'float', 1)], '', ['example_param'])
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [672, 308.0]
+    coordinate: [632, 292.0]
     rotation: 0
-    state: enabled
+    state: true
 - name: qtgui_number_sink_0
   id: qtgui_number_sink
   parameters:
@@ -172,7 +172,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1032, 292.0]
+    coordinate: [864, 276.0]
     rotation: 0
     state: true
 
