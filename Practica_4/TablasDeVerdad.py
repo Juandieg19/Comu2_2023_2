@@ -21,21 +21,17 @@ if __name__ == '__main__':
         except:
             print("Warning: failed to XInitThreads()")
 
-import os
-import sys
-sys.path.append(os.environ.get('GRC_HIER_PATH', os.path.expanduser('~/.grc_gnuradio')))
-
 from PyQt5 import Qt
 from gnuradio import qtgui
 from gnuradio.filter import firdes
 import sip
-from b_PSD_c import b_PSD_c  # grc-generated hier_block
 from gnuradio import analog
 from gnuradio import blocks
 import numpy
 from gnuradio import filter
 from gnuradio import gr
 from gnuradio.fft import window
+import sys
 import signal
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
@@ -95,6 +91,57 @@ class TablasDeVerdad(gr.top_block, Qt.QWidget):
         # Blocks
         ##################################################
 
+        self.qtgui_time_sink_x_1 = qtgui.time_sink_c(
+            512, #size
+            Rb, #samp_rate
+            "", #name
+            1, #number of inputs
+            None # parent
+        )
+        self.qtgui_time_sink_x_1.set_update_time(0.10)
+        self.qtgui_time_sink_x_1.set_y_axis(-1, 1)
+
+        self.qtgui_time_sink_x_1.set_y_label('Amplitude', "")
+
+        self.qtgui_time_sink_x_1.enable_tags(True)
+        self.qtgui_time_sink_x_1.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
+        self.qtgui_time_sink_x_1.enable_autoscale(False)
+        self.qtgui_time_sink_x_1.enable_grid(False)
+        self.qtgui_time_sink_x_1.enable_axis_labels(True)
+        self.qtgui_time_sink_x_1.enable_control_panel(False)
+        self.qtgui_time_sink_x_1.enable_stem_plot(False)
+
+
+        labels = ['EC-Re', 'EC-Im', 'Signal 3', 'Signal 4', 'Signal 5',
+            'Signal 6', 'Signal 7', 'Signal 8', 'Signal 9', 'Signal 10']
+        widths = [3, 3, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        colors = ['blue', 'red', 'green', 'black', 'cyan',
+            'magenta', 'yellow', 'dark red', 'dark green', 'dark blue']
+        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
+            1.0, 1.0, 1.0, 1.0, 1.0]
+        styles = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        markers = [-1, -1, -1, -1, -1,
+            -1, -1, -1, -1, -1]
+
+
+        for i in range(2):
+            if len(labels[i]) == 0:
+                if (i % 2 == 0):
+                    self.qtgui_time_sink_x_1.set_line_label(i, "Re{{Data {0}}}".format(i/2))
+                else:
+                    self.qtgui_time_sink_x_1.set_line_label(i, "Im{{Data {0}}}".format(i/2))
+            else:
+                self.qtgui_time_sink_x_1.set_line_label(i, labels[i])
+            self.qtgui_time_sink_x_1.set_line_width(i, widths[i])
+            self.qtgui_time_sink_x_1.set_line_color(i, colors[i])
+            self.qtgui_time_sink_x_1.set_line_style(i, styles[i])
+            self.qtgui_time_sink_x_1.set_line_marker(i, markers[i])
+            self.qtgui_time_sink_x_1.set_line_alpha(i, alphas[i])
+
+        self._qtgui_time_sink_x_1_win = sip.wrapinstance(self.qtgui_time_sink_x_1.qwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._qtgui_time_sink_x_1_win)
         self.qtgui_time_sink_x_0_0_1 = qtgui.time_sink_c(
             (int(32*Sps/Nbs)), #size
             samp_rate, #samp_rate
@@ -188,19 +235,19 @@ class TablasDeVerdad(gr.top_block, Qt.QWidget):
 
         self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
-        self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
+        self.qtgui_const_sink_x_1 = qtgui.const_sink_c(
             1024, #size
             "", #name
             1, #number of inputs
             None # parent
         )
-        self.qtgui_const_sink_x_0.set_update_time(0.10)
-        self.qtgui_const_sink_x_0.set_y_axis((-2), 2)
-        self.qtgui_const_sink_x_0.set_x_axis((-2), 2)
-        self.qtgui_const_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
-        self.qtgui_const_sink_x_0.enable_autoscale(False)
-        self.qtgui_const_sink_x_0.enable_grid(False)
-        self.qtgui_const_sink_x_0.enable_axis_labels(True)
+        self.qtgui_const_sink_x_1.set_update_time(0.10)
+        self.qtgui_const_sink_x_1.set_y_axis((-2), 2)
+        self.qtgui_const_sink_x_1.set_x_axis((-2), 2)
+        self.qtgui_const_sink_x_1.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
+        self.qtgui_const_sink_x_1.enable_autoscale(False)
+        self.qtgui_const_sink_x_1.enable_grid(False)
+        self.qtgui_const_sink_x_1.enable_axis_labels(True)
 
 
         labels = ['', '', '', '', '',
@@ -218,33 +265,27 @@ class TablasDeVerdad(gr.top_block, Qt.QWidget):
 
         for i in range(1):
             if len(labels[i]) == 0:
-                self.qtgui_const_sink_x_0.set_line_label(i, "Data {0}".format(i))
+                self.qtgui_const_sink_x_1.set_line_label(i, "Data {0}".format(i))
             else:
-                self.qtgui_const_sink_x_0.set_line_label(i, labels[i])
-            self.qtgui_const_sink_x_0.set_line_width(i, widths[i])
-            self.qtgui_const_sink_x_0.set_line_color(i, colors[i])
-            self.qtgui_const_sink_x_0.set_line_style(i, styles[i])
-            self.qtgui_const_sink_x_0.set_line_marker(i, markers[i])
-            self.qtgui_const_sink_x_0.set_line_alpha(i, alphas[i])
+                self.qtgui_const_sink_x_1.set_line_label(i, labels[i])
+            self.qtgui_const_sink_x_1.set_line_width(i, widths[i])
+            self.qtgui_const_sink_x_1.set_line_color(i, colors[i])
+            self.qtgui_const_sink_x_1.set_line_style(i, styles[i])
+            self.qtgui_const_sink_x_1.set_line_marker(i, markers[i])
+            self.qtgui_const_sink_x_1.set_line_alpha(i, alphas[i])
 
-        self._qtgui_const_sink_x_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0.qwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_const_sink_x_0_win)
+        self._qtgui_const_sink_x_1_win = sip.wrapinstance(self.qtgui_const_sink_x_1.qwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._qtgui_const_sink_x_1_win)
         self.interp_fir_filter_xxx_0 = filter.interp_fir_filter_ccc(Sps, h)
         self.interp_fir_filter_xxx_0.declare_sample_delay(0)
         self.epy_block_0 = epy_block_0.blk(example_param=1.0)
         self.blocks_repack_bits_bb_0 = blocks.repack_bits_bb(1, Nbs, "", False, gr.GR_LSB_FIRST)
+        self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_gr_complex*1)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff((2*math.pi/M))
         self.blocks_char_to_float_0_0 = blocks.char_to_float(1, 1)
-        self.b_PSD_c_0 = b_PSD_c(
-            Ensayos=1000000,
-            Fc=0,
-            N=1024,
-            Ymax=6e-6,
-            samp_rate_audio=samp_rate,
-        )
-
-        self.top_layout.addWidget(self.b_PSD_c_0)
+        self.blocks_add_xx_0 = blocks.add_vcc(1)
         self.analog_random_source_x_0 = blocks.vector_source_b(list(map(int, numpy.random.randint(0, 2, 1000))), True)
+        self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, 0.1, 0)
         self.analog_const_source_x_0 = analog.sig_source_f(0, analog.GR_CONST_WAVE, 0, 0, 1)
 
 
@@ -252,13 +293,16 @@ class TablasDeVerdad(gr.top_block, Qt.QWidget):
         # Connections
         ##################################################
         self.connect((self.analog_const_source_x_0, 0), (self.epy_block_0, 1))
+        self.connect((self.analog_noise_source_x_0, 0), (self.blocks_add_xx_0, 0))
+        self.connect((self.analog_noise_source_x_0, 0), (self.qtgui_const_sink_x_1, 0))
+        self.connect((self.analog_noise_source_x_0, 0), (self.qtgui_time_sink_x_1, 0))
         self.connect((self.analog_random_source_x_0, 0), (self.blocks_repack_bits_bb_0, 0))
+        self.connect((self.blocks_add_xx_0, 0), (self.blocks_null_sink_0, 0))
         self.connect((self.blocks_char_to_float_0_0, 0), (self.blocks_multiply_const_vxx_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.epy_block_0, 0))
         self.connect((self.blocks_repack_bits_bb_0, 0), (self.blocks_char_to_float_0_0, 0))
-        self.connect((self.epy_block_0, 0), (self.b_PSD_c_0, 0))
         self.connect((self.epy_block_0, 0), (self.interp_fir_filter_xxx_0, 0))
-        self.connect((self.epy_block_0, 0), (self.qtgui_const_sink_x_0, 0))
+        self.connect((self.interp_fir_filter_xxx_0, 0), (self.blocks_add_xx_0, 1))
         self.connect((self.interp_fir_filter_xxx_0, 0), (self.qtgui_freq_sink_x_0, 0))
         self.connect((self.interp_fir_filter_xxx_0, 0), (self.qtgui_time_sink_x_0_0_1, 0))
 
@@ -293,6 +337,7 @@ class TablasDeVerdad(gr.top_block, Qt.QWidget):
     def set_Rb(self, Rb):
         self.Rb = Rb
         self.set_Rs(self.Rb/self.Nbs)
+        self.qtgui_time_sink_x_1.set_samp_rate(self.Rb)
 
     def get_Nbs(self):
         return self.Nbs
@@ -321,7 +366,6 @@ class TablasDeVerdad(gr.top_block, Qt.QWidget):
 
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
-        self.b_PSD_c_0.set_samp_rate_audio(self.samp_rate)
         self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
         self.qtgui_time_sink_x_0_0_1.set_samp_rate(self.samp_rate)
 

@@ -152,7 +152,7 @@ blocks:
     bus_structure: null
     coordinate: [1248, 348.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: analog_random_source_x_0
   id: analog_random_source_x
   parameters:
@@ -191,7 +191,7 @@ blocks:
     bus_structure: null
     coordinate: [1280, 1040.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: blocks_add_xx_0
   id: blocks_add_xx
   parameters:
@@ -209,7 +209,7 @@ blocks:
     bus_structure: null
     coordinate: [1704.0, 376]
     rotation: 270
-    state: disabled
+    state: enabled
 - name: blocks_char_to_float_0
   id: blocks_char_to_float
   parameters:
@@ -295,7 +295,7 @@ blocks:
     bus_structure: null
     coordinate: [1700.0, 584]
     rotation: 270
-    state: disabled
+    state: enabled
 - name: blocks_repack_bits_bb_0
   id: blocks_repack_bits_bb
   parameters:
@@ -474,7 +474,7 @@ blocks:
     bus_structure: null
     coordinate: [1328, 936.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: qtgui_const_sink_x_1
   id: qtgui_const_sink_x
   parameters:
@@ -566,7 +566,7 @@ blocks:
     bus_structure: null
     coordinate: [1540.0, 480]
     rotation: 270
-    state: disabled
+    state: enabled
 - name: qtgui_freq_sink_x_0
   id: qtgui_freq_sink_x
   parameters:
@@ -1132,7 +1132,7 @@ blocks:
     bus_structure: null
     coordinate: [1444.0, 520]
     rotation: 270
-    state: disabled
+    state: enabled
 
 connections:
 - [analog_const_source_x_0, '0', epy_block_0, '1']
